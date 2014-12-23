@@ -1,0 +1,47 @@
+@(productForm: Form[Product])
+
+@*import helper._
+@import helper.twitterBootstrap._ *@
+
+@import b3.vertical.fieldConstructor
+
+@main("Product form") {
+	
+	<h1>@Messages("products.form")</h1>
+    
+    @b3.form(action = routes.Products.save()) {
+		<fieldset>
+			<legend>Product (@productForm("name").valueOr("New"))</legend> 
+		
+			@b3.text(productForm("ean"), '_label -> "EAN", '_showConstraints -> true, '_showIconValid -> true, '_showIconOnError -> true ) 
+		
+			@b3.text(productForm("name"),'_label -> "Name", '_showConstraints -> true, '_showIconValid -> true, '_showIconOnError -> true) 
+		
+			@b3.textarea(productForm("description"), '_label -> "Description", 'row -> 5, '_showConstraints -> true, '_showIconValid -> true, '_showIconOnError -> true )
+
+			<div class="control-group">
+			  <div class="controls">
+			    <input name="tags[0].id" value="1" type="checkbox"
+			    @for(i <- 0 to 2) {
+			      @if(productForm("tags[" + i + "].id").value=="1"){ checked }
+			    }> lightweight
+			    <input name="tags[1].id" value="2" type="checkbox"
+			    @for(i <- 0 to 2) {
+			      @if(productForm("tags[" + i + "].id").value=="2"){ checked }
+			    }> metal
+			    <input name="tags[2].id" value="3" type="checkbox"
+			    @for(i <- 0 to 2) {
+			      @if(productForm("tags[" + i + "].id").value=="3"){ checked }
+			    }> plastic
+			  </div>
+			</div>
+		
+		</fieldset>
+		
+
+		<input type="submit" class="btn btn-primary" value="Save"> 
+		
+		<a class="btn btn-default" href="@routes.Products.list()">Cancel</a>
+	} 
+
+}
